@@ -93,6 +93,7 @@ public class CuMqttService3 extends MqttService implements MqttCallback {
 	private Context context;
 
 	public class LocalBinder extends Binder {
+		
 		CuMqttService3 getService() {
 			return CuMqttService3.this;
 		}
@@ -115,10 +116,11 @@ public class CuMqttService3 extends MqttService implements MqttCallback {
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId) {
+		Log.i(TAG, "onStartCommand: ");
 		Log.i("hotel", "start service");
 
-		showNotification();
-		ensureServiceStaysRunning();
+		//showNotification();
+		//ensureServiceStaysRunning();
 
 
 		token ="all";
@@ -241,6 +243,29 @@ public class CuMqttService3 extends MqttService implements MqttCallback {
 		String[] curmessage = message.toString().split("\\|\\|\\|\\|");
 		PendingIntent contentIntent = null;
 
+
+		int reqCode = 99;
+		Intent intent = new Intent(getApplicationContext(), ActivityMain.class);
+		PendingIntent pendingIntent = PendingIntent.getActivity(context, reqCode, intent, PendingIntent.FLAG_ONE_SHOT);
+		String CHANNEL_ID = "channel_name";// The id of the channel.
+		NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, CHANNEL_ID)
+				.setSmallIcon(R.mipmap.ic_launcher)
+				.setContentTitle("مجتمع فرهنگی آموزشی پسرانه معلم")
+				.setContentText(curmessage[0])
+				.setAutoCancel(true)
+				.setContentIntent(pendingIntent);
+		NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			CharSequence name = "Channel Name";// The user-visible name of the channel.
+			int importance = NotificationManager.IMPORTANCE_HIGH;
+			NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, name, importance);
+			notificationManager.createNotificationChannel(mChannel);
+		}
+		notificationManager.notify(reqCode, notificationBuilder.build()); // 0 is the request code, it should be unique id
+
+		Log.d("showNotification", "showNotification: " + reqCode);
+
+
 		Log.i("hotel", "new message");
 	}
 
@@ -250,7 +275,7 @@ public class CuMqttService3 extends MqttService implements MqttCallback {
 		// In this sample, we'll use the same text for the ticker and the
 		// expanded notification
 		CharSequence text = msg;
-
+		Log.i(TAG, "showStateNotification: " + msg);
 		// Set the icon, scrolling text and timestamp
 
 		// The PendingIntent to launch our activity if the user selects this
@@ -262,6 +287,7 @@ public class CuMqttService3 extends MqttService implements MqttCallback {
 
 	@SuppressLint("NewApi")
 	private void showNotification() {
+		Log.i(TAG, "showNotification: ");
 		/*
 		 * // In this sample, we'll use the same text for the ticker and the
 		 * expanded notification CharSequence text = "Ø³Ø±ÙˆÛŒØ³ Ù�Ø¹Ø§Ù„ Ø´Ø¯";
