@@ -16,12 +16,17 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import android.widget.Toast;
+import android.content.Intent;
+import android.os.Bundle;
 public class ActivityMain extends AppCompatActivity {
-    MqttAndroidClient client;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        final Intent intent = new Intent(this,
+                ir.moallem.app.CuMqttService3.class);
+        startService(intent);
+
         getSupportActionBar().hide();
         WebView mywebview = (WebView) findViewById(R.id.webView);
         WebView.setWebContentsDebuggingEnabled(true);
@@ -32,44 +37,11 @@ public class ActivityMain extends AppCompatActivity {
         webSettings.setUseWideViewPort(false);
 
         //mywebview.loadUrl("file:///android_asset/index.html");
-        mywebview.loadUrl("http://192.168.88.252:8080");
+        //mywebview.loadUrl("http://192.168.88.252:8080");
+        mywebview.loadUrl("http://192.168.1.13:8080");
 
-        String clientId = MqttClient.generateClientId();
-        MqttAndroidClient client =
-                new MqttAndroidClient(this.getApplicationContext(), "tcp://broker.hivemq.com:1883",
-                        clientId);
-        try {
-            IMqttToken token = client.connect();
-            token.setActionCallback(new IMqttActionListener() {
-                @Override
-                public void onSuccess(IMqttToken asyncActionToken) {
-                    // We are connected
-                    Log.d(TAG, "onSuccess");
-                }
 
-                @Override
-                public void onFailure(IMqttToken asyncActionToken, Throwable exception) {
-                    // Something went wrong e.g. connection timeout or firewall problems
-                    Log.d(TAG, "onFailure");
-
-                }
-            });
-        } catch (MqttException e) {
-            e.printStackTrace();
-        }
-        MqttConnectOptions options = new MqttConnectOptions();
-        options.setMqttVersion(MqttConnectOptions.MQTT_VERSION_3_1);
-        try {
-            IMqttToken token = client.connect(options);
-        } catch (MqttException e) {
-            e.printStackTrace();
-        }
-        options.setUserName("USERNAME");
-        options.setPassword("PASSWORD".toCharArray());
-
+            //finish();
 
     }
-
-
-
 }
