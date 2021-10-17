@@ -119,15 +119,15 @@ public class CuMqttService3 extends MqttService implements MqttCallback {
 		Log.i(TAG, "onStartCommand: ");
 		Log.i("hotel", "start service");
 
-		//showNotification();
-		//ensureServiceStaysRunning();
+		showNotification();
+		ensureServiceStaysRunning();
 
 
 		token ="all";
 
 
 		uri = "tcp://";
-		server = "192.168.1.13";
+		server = "192.168.88.252";
 		port = "1883";
 		uri = uri + server + ":" + port;
 		String message = "hello";
@@ -206,7 +206,8 @@ public class CuMqttService3 extends MqttService implements MqttCallback {
 	}
 
 	@Override
-	public void onDestroy() { 
+	public void onDestroy() {
+		Log.i(TAG, "onDestroy: ");
 		try {
 			mqttClient.disconnect(0);
 		} catch (MqttException | NullPointerException e) {
@@ -312,6 +313,7 @@ public class CuMqttService3 extends MqttService implements MqttCallback {
 	}
 
 	private void ensureServiceStaysRunning() {
+		Log.i(TAG, "ensureServiceStaysRunning: ");
 		// KitKat appears to have (in some cases) forgotten how to honor
 		// START_STICKY
 		// and if the service is killed, it doesn't restart. On an emulator &

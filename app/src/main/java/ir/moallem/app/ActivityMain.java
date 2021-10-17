@@ -37,8 +37,8 @@ public class ActivityMain extends AppCompatActivity {
         webSettings.setUseWideViewPort(false);
 
         //mywebview.loadUrl("file:///android_asset/index.html");
-        //mywebview.loadUrl("http://192.168.88.252:8080");
-        mywebview.loadUrl("http://192.168.1.13:8080");
+        mywebview.loadUrl("http://192.168.88.252:8080");
+        //mywebview.loadUrl("http://192.168.1.13:8080");
 
 
             //finish();
