@@ -140,9 +140,9 @@ public class CuMqttService3 extends MqttService implements MqttCallback {
 
 		// connection options
 
-		String username = null;
+		String username = "ali";
 
-		String password = null;
+		String password = "aliomega12";
 
 		int timeout = 120;
 		int keepalive = 120;
@@ -156,7 +156,9 @@ public class CuMqttService3 extends MqttService implements MqttCallback {
 		conOpt.setCleanSession(false);
 		conOpt.setConnectionTimeout(timeout);
 		conOpt.setKeepAliveInterval(keepalive);
-
+		conOpt.setUserName(username);
+		conOpt.setPassword(password.toCharArray());
+		
 		final IMqttActionListener callback = new IMqttActionListener() {
 
 			@Override
